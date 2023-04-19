@@ -10,21 +10,20 @@ use Orchid\Screen\Field;
 use Orchid\Screen\Fields\CheckBox;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Layouts\Rows;
-use Throwable;
 
 class RolePermissionLayout extends Rows
 {
     /**
-     * @var User|null
+     * @var null|User
      */
     private $user;
 
     /**
      * The screen's layout elements.
      *
-     * @throws Throwable
-     *
      * @return Field[]
+     *
+     * @throws \Throwable
      */
     public function fields(): array
     {
@@ -35,44 +34,30 @@ class RolePermissionLayout extends Rows
         );
     }
 
-    /**
-     * @param Collection $permissionsRaw
-     *
-     * @return array
-     */
     private function generatedPermissionFields(Collection $permissionsRaw): array
     {
         return $permissionsRaw
             ->map(fn (Collection $permissions, $title) => $this->makeCheckBoxGroup($permissions, $title))
             ->flatten()
-            ->toArray();
+            ->toArray()
+        ;
     }
 
-    /**
-     * @param Collection $permissions
-     * @param string     $title
-     *
-     * @return Collection
-     */
     private function makeCheckBoxGroup(Collection $permissions, string $title): Collection
     {
         return $permissions
             ->map(fn (array $chunks) => $this->makeCheckBox(collect($chunks)))
             ->flatten()
-            ->map(fn (CheckBox $checkbox, $key) => $key === 0
+            ->map(fn (CheckBox $checkbox, $key) => 0 === $key
                 ? $checkbox->title($title)
                 : $checkbox)
             ->chunk(4)
             ->map(fn (Collection $checkboxes) => Group::make($checkboxes->toArray())
                 ->alignEnd()
-                ->autoWidth());
+                ->autoWidth())
+        ;
     }
 
-    /**
-     * @param Collection $chunks
-     *
-     * @return CheckBox
-     */
     private function makeCheckBox(Collection $chunks): CheckBox
     {
         return CheckBox::make('permissions.'.base64_encode($chunks->get('slug')))
@@ -82,17 +67,12 @@ class RolePermissionLayout extends Rows
             ->indeterminate($this->getIndeterminateStatus(
                 $chunks->get('slug'),
                 $chunks->get('active')
-            ));
+            ))
+        ;
     }
 
-    /**
-     * @param $slug
-     * @param $value
-     *
-     * @return bool
-     */
     private function getIndeterminateStatus($slug, $value): bool
     {
-        return optional($this->user)->hasAccess($slug) === true && $value === false;
+        return true === optional($this->user)->hasAccess($slug) && false === $value;
     }
 }

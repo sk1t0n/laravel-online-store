@@ -31,8 +31,6 @@ class UserEditScreen extends Screen
     /**
      * Fetch data to be displayed on the screen.
      *
-     * @param User $user
-     *
      * @return array
      */
     public function query(User $user): iterable
@@ -40,15 +38,13 @@ class UserEditScreen extends Screen
         $user->load(['roles']);
 
         return [
-            'user'       => $user,
+            'user' => $user,
             'permission' => $user->getStatusPermission(),
         ];
     }
 
     /**
      * The name of the screen displayed in the header.
-     *
-     * @return string|null
      */
     public function name(): ?string
     {
@@ -57,17 +53,12 @@ class UserEditScreen extends Screen
 
     /**
      * Display header description.
-     *
-     * @return string|null
      */
     public function description(): ?string
     {
         return 'Details such as name, email and password';
     }
 
-    /**
-     * @return iterable|null
-     */
     public function permission(): ?iterable
     {
         return [
@@ -107,7 +98,6 @@ class UserEditScreen extends Screen
     public function layout(): iterable
     {
         return [
-
             Layout::block(UserEditLayout::class)
                 ->title(__('Profile Information'))
                 ->description(__('Update your account\'s profile information and email address.'))
@@ -151,14 +141,10 @@ class UserEditScreen extends Screen
                         ->canSee($this->user->exists)
                         ->method('save')
                 ),
-
         ];
     }
 
     /**
-     * @param User    $user
-     * @param Request $request
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function save(User $user, Request $request)
@@ -173,7 +159,8 @@ class UserEditScreen extends Screen
         $permissions = collect($request->get('permissions'))
             ->map(fn ($value, $key) => [base64_decode($key) => $value])
             ->collapse()
-            ->toArray();
+            ->toArray()
+        ;
 
         $user->when($request->filled('user.password'), function (Builder $builder) use ($request) {
             $builder->getModel()->password = Hash::make($request->input('user.password'));
@@ -182,7 +169,8 @@ class UserEditScreen extends Screen
         $user
             ->fill($request->collect('user')->except(['password', 'permissions', 'roles'])->toArray())
             ->fill(['permissions' => $permissions])
-            ->save();
+            ->save()
+        ;
 
         $user->replaceRoles($request->input('user.roles'));
 
@@ -192,11 +180,9 @@ class UserEditScreen extends Screen
     }
 
     /**
-     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Exception
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function remove(User $user)
     {
@@ -208,8 +194,6 @@ class UserEditScreen extends Screen
     }
 
     /**
-     * @param User $user
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function loginAs(User $user)

@@ -25,22 +25,18 @@ class RoleEditScreen extends Screen
     /**
      * Fetch data to be displayed on the screen.
      *
-     * @param Role $role
-     *
      * @return array
      */
     public function query(Role $role): iterable
     {
         return [
-            'role'       => $role,
+            'role' => $role,
             'permission' => $role->getStatusPermission(),
         ];
     }
 
     /**
      * The name of the screen displayed in the header.
-     *
-     * @return string|null
      */
     public function name(): ?string
     {
@@ -49,17 +45,12 @@ class RoleEditScreen extends Screen
 
     /**
      * Display header description.
-     *
-     * @return string|null
      */
     public function description(): ?string
     {
         return 'Access rights';
     }
 
-    /**
-     * @return iterable|null
-     */
     public function permission(): ?iterable
     {
         return [
@@ -89,7 +80,7 @@ class RoleEditScreen extends Screen
     /**
      * The screen's layout elements.
      *
-     * @return string[]|\Orchid\Screen\Layout[]
+     * @return \Orchid\Screen\Layout[]|string[]
      */
     public function layout(): iterable
     {
@@ -109,9 +100,6 @@ class RoleEditScreen extends Screen
     }
 
     /**
-     * @param Request $request
-     * @param Role    $role
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function save(Request $request, Role $role)
@@ -128,7 +116,8 @@ class RoleEditScreen extends Screen
         $role->permissions = collect($request->get('permissions'))
             ->map(fn ($value, $key) => [base64_decode($key) => $value])
             ->collapse()
-            ->toArray();
+            ->toArray()
+        ;
 
         $role->save();
 
@@ -138,11 +127,9 @@ class RoleEditScreen extends Screen
     }
 
     /**
-     * @param Role $role
+     * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Exception
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function remove(Role $role)
     {

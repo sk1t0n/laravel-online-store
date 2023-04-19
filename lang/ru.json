@@ -68,6 +68,7 @@
     "Verify Email Address": "Подтвердить адрес электронной почты",
     "Whoops!": "Упс!",
     "You are receiving this email because we received a password reset request for your account.": "Вы получили это письмо, потому что мы получили запрос на сброс пароля для Вашей учётной записи.",
+    "You can revert to your original state by logging out.": "Вы можете вернуться к исходному состоянию, выйдя из системы.",
     "You're logged in!": "Вы уже вошли.",
     "Your email address is unverified.": "Ваш адрес электронной почты не подтверждён."
 }
