@@ -19,6 +19,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "flowbite": "^1.6.5",
         "laravel-vue-i18n": "^2.4.2"
     }
 }

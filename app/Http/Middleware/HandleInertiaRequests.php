@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -35,10 +36,11 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
+                return array_merge((new Ziggy())->toArray(), [
                     'location' => $request->url(),
                 ]);
             },
+            'categories' => fn () => Category::all(),
         ]);
     }
 }

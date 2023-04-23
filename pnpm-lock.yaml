@@ -7,6 +7,7 @@ specifiers:
   '@vue/server-renderer': ^3.2.31
   autoprefixer: ^10.4.12
   axios: ^1.1.2
+  flowbite: ^1.6.5
   laravel-vite-plugin: ^0.7.2
   laravel-vue-i18n: ^2.4.2
   lodash: ^4.17.19
@@ -16,6 +17,7 @@ specifiers:
   vue: ^3.2.41
 
 dependencies:
+  flowbite: 1.6.5
   laravel-vue-i18n: 2.4.2
 
 devDependencies:
@@ -334,6 +336,10 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@popperjs/core/2.11.7:
+    resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
+    dev: false
+
   /@tailwindcss/forms/0.5.3_tailwindcss@3.3.1:
     resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
     peerDependencies:
@@ -651,6 +657,13 @@ packages:
       to-regex-range: 5.0.1
     dev: true
 
+  /flowbite/1.6.5:
+    resolution: {integrity: sha512-eI4h3pIRI9d7grlYq14r0A01KUtw7189sPLLx/O2i7JyPEWpbleScfYuEc48XTeNjk1xxm/JHgZkD9kjyOWAlA==}
+    dependencies:
+      '@popperjs/core': 2.11.7
+      mini-svg-data-uri: 1.4.4
+    dev: false
+
   /follow-redirects/1.15.2:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -853,7 +866,6 @@ packages:
   /mini-svg-data-uri/1.4.4:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
     hasBin: true
-    dev: true
 
   /minimatch/3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
