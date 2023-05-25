@@ -1,32 +1,33 @@
 <script setup>
+import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
-let $products = ref({});
-let $productsCount = ref(0);
+const $products = ref([]);
+const $productsCount = ref(0);
 const $btnCloseModal = ref(null);
 
 const loadProducts = () => {
-    const serializedProducts = { ...localStorage };
-    const deserializedProducts = {};
-    const keys = Object.keys(serializedProducts);
-
-    try {
-        for (let k of keys) {
-            deserializedProducts[k] = JSON.parse(serializedProducts[k]);
-        }
-    } catch (e) {
-        console.error(e);
-    }
-
-    $products.value = deserializedProducts;
-    $productsCount.value = keys.length;
+    axios.get('/cart/loadProducts')
+        .then(response => {
+            $products.value = response.data.products;
+            $productsCount.value = response.data.count;
+        })
+        .catch(error => {
+            $products.value = [];
+            $productsCount.value = 0;
+            console.error(error);
+        });
 };
 
 const clearCart = () => {
-    localStorage.clear();
-    $products.value = {};
-    $productsCount.value = 0;
-    $btnCloseModal.value.click();
+    axios.get('/cart/clear')
+        .then(response => {
+            $products.value = [];
+            $productsCount.value = 0;
+            $btnCloseModal.value.click();
+            console.log(response.data.message);
+        })
+        .catch(error => console.error(error));
 };
 
 onMounted(() => loadProducts());
@@ -75,11 +76,11 @@ defineExpose({
                         <span class="sr-only">{{ $t('Close modal') }}</span>
                     </button>
                 </div>
-                <div v-if="Object.keys($products).length > 0">
+                <div v-if="$products">
                     <!-- Modal body -->
                     <div class="p-6 space-y-6">
                         <div v-for="product in $products" :key="product.id">
-                            <div>{{ product.name }} <span>{{ product.category.name }}</span></div>
+                            <div>{{ product.name }} <span>{{ product.price }} $</span></div>
                         </div>
                     </div>
                     <!-- Modal footer -->

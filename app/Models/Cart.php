@@ -27,6 +27,10 @@ class Cart extends Model
         'id',
     ];
 
+    protected $fillable = [
+        'session_id',
+    ];
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
@@ -35,5 +39,26 @@ class Cart extends Model
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    public function getOrCreateCartBySessionId(string $sessionId): self
+    {
+        $cart = Cart::where('session_id', $sessionId)->first();
+
+        if (is_null($cart)) {
+            $cart = Cart::create([
+                'session_id' => $sessionId,
+            ]);
+        }
+
+        return $cart;
+    }
+
+    public function clear(): ?string
+    {
+        $sessionId = session()->getId();
+        $deleted = Cart::where('session_id', $sessionId)->delete();
+
+        return $deleted ? __('cart.clear') : null;
     }
 }

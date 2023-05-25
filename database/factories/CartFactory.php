@@ -20,6 +20,7 @@ class CartFactory extends Factory
     {
         return [
             'id' => Uuid::uuid6(),
+            'session_id' => fake()->md5(),
             'order_id' => Order::factory(),
         ];
     }

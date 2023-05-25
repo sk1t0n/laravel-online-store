@@ -47,6 +47,10 @@ class ProductResource extends Resource
                     return "<a href='{$url}'>{$p->id}</a>";
                 }),
             TD::make('name', __('Title')),
+            TD::make('price', __('Price'))
+                ->render(function ($p) {
+                    return "{$p->price} $";
+                }),
             TD::make('category_id', __('Category'))
                 ->render(function ($p) {
                     $url = "/admin/crud/view/category-resources/{$p->category->id}";
@@ -66,6 +70,10 @@ class ProductResource extends Resource
         return [
             Sight::make('id', 'ID'),
             Sight::make('name', __('Title')),
+            Sight::make('price', __('Price'))
+                ->render(function ($p) {
+                    return "{$p->price} $";
+                }),
             Sight::make('category_id', __('Category'))
                 ->render(function ($p) {
                     $url = "/admin/crud/view/category-resources/{$p->category->id}";

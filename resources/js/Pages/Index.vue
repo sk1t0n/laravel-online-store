@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import OnlineStoreLayout from '@/Layouts/OnlineStoreLayout.vue';
 import Cart from '@/Components/Cart.vue';
 import Pagination from '@/Components/Pagination.vue';
+import axios from 'axios';
 
 const $cart = ref(null);
 
@@ -12,12 +13,12 @@ defineProps({
 });
 
 const addProductToCart = (product) => {
-    if (localStorage.getItem(product.id) === null) {
-        localStorage.setItem(product.id, JSON.stringify(product));
-        $cart.value.loadProducts();
-    } else {
-        alert('Product already was added');
-    }
+    axios.post('/cart/addProduct', product)
+        .then(response => {
+            $cart.value.loadProducts();
+            console.log(response.data.message);
+        })
+        .catch(error => console.error(error));
 };
 </script>
 
@@ -40,6 +41,7 @@ const addProductToCart = (product) => {
                     </h2>
                     <div class="font-normal text-gray-700 dark:text-gray-400"><a
                             :href="`/?category=${product.category.id}`">{{ product.category.name }}</a></div>
+                    <div>{{ product.price }} $</div>
                     <button type="button"
                         class="w-full sm:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                         @click="addProductToCart(product)">{{ $t('Add to cart') }}</button>

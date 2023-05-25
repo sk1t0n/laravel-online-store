@@ -45,11 +45,13 @@ class CartResource extends Resource
 
                     return "<a href='{$url}'>{$c->id}</a>";
                 }),
+            TD::make('session_id', __('Session ID')),
             TD::make('order_id', __('Order'))
                 ->render(function ($c) {
-                    $url = "/admin/crud/view/order-resources/{$c->order->id}";
+                    $orderId = $c->order ? $c->order->id : null;
+                    $url = "/admin/crud/view/order-resources/{$orderId}";
 
-                    return "<a href='{$url}'>{$c->order->id}</a>";
+                    return "<a href='{$url}'>{$orderId}</a>";
                 }),
         ];
     }
@@ -63,11 +65,13 @@ class CartResource extends Resource
     {
         return [
             Sight::make('id', 'ID'),
+            Sight::make('session_id', __('Session ID')),
             Sight::make('order_id', __('Order'))
                 ->render(function ($c) {
-                    $url = "/admin/crud/view/order-resources/{$c->order->id}";
+                    $orderId = $c->order ? $c->order->id : null;
+                    $url = "/admin/crud/view/order-resources/{$orderId}";
 
-                    return "<a href='{$url}'>{$c->order->id}</a>";
+                    return "<a href='{$url}'>{$orderId}</a>";
                 }),
         ];
     }

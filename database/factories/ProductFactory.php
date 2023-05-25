@@ -21,6 +21,7 @@ class ProductFactory extends Factory
         return [
             'id' => Uuid::uuid6(),
             'name' => fake()->text(20),
+            'price' => fake()->randomFloat(2, 100, 999),
             'category_id' => Category::factory(),
         ];
     }

@@ -12,7 +12,8 @@ return new class() extends Migration {
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger('order_id')->index();
+            $table->string('session_id');
+            $table->unsignedBigInteger('order_id')->nullable()->index();
             $table
                 ->foreign('order_id')
                 ->on('orders')
