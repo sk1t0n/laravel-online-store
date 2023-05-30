@@ -8,23 +8,22 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function addProduct(Request $request)
+    public function addProduct(Cart $cart, CartItem $cartItem, Request $request)
     {
         $productId = $request->input('id');
         $sessionId = session()->getId();
 
-        $cart = (new Cart())->getOrCreateCartBySessionId($sessionId);
-
-        $message = (new CartItem())->addProduct($cart->id, $productId);
+        $cart = $cart->getOrCreateCartBySessionId($sessionId);
+        $message = $cartItem->addProduct($cart->id, $productId);
 
         return response()->json([
             'message' => $message ?? __('cart.add'),
         ]);
     }
 
-    public function loadProducts()
+    public function loadProducts(CartItem $cartItem)
     {
-        $products = (new CartItem())->loadProducts();
+        $products = $cartItem->loadProducts();
 
         return response()->json([
             'products' => $products,
@@ -32,9 +31,9 @@ class CartController extends Controller
         ]);
     }
 
-    public function clear()
+    public function clear(Cart $cart)
     {
-        $message = (new Cart())->clear();
+        $message = $cart->clear();
 
         return response()->json([
             'message' => $message,
