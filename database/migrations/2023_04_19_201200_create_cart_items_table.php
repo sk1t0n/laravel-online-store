@@ -12,19 +12,15 @@ return new class() extends Migration {
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger('cart_id')->index();
             $table
-                ->foreign('cart_id')
-                ->on('carts')
-                ->references('id')
+                ->foreignId('cart_id')
+                ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete()
             ;
-            $table->unsignedBigInteger('product_id')->index();
             $table
-                ->foreign('product_id')
-                ->on('products')
-                ->references('id')
+                ->foreignId('product_id')
+                ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete()
             ;

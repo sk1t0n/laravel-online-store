@@ -12,11 +12,9 @@ return new class() extends Migration {
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger('customer_id')->index();
             $table
-                ->foreign('customer_id')
-                ->on('customers')
-                ->references('id')
+                ->foreignId('customer_id')
+                ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete()
             ;

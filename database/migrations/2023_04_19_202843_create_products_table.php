@@ -14,11 +14,9 @@ return new class() extends Migration {
             $table->uuid('id')->primary();
             $table->string('name', 20);
             $table->decimal('price', 8, 2)->default(0);
-            $table->unsignedBigInteger('category_id')->index();
             $table
-                ->foreign('category_id')
-                ->on('categories')
-                ->references('id')
+                ->foreignId('category_id')
+                ->constrained()
                 ->cascadeOnUpdate()
                 ->nullOnDelete()
             ;
